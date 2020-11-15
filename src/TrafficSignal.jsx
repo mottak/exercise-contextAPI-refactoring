@@ -1,48 +1,34 @@
 // src/TrafficSignal.jsx
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { changeSignal } from './redux/actionCreators';
-import redSignal from './images/redSignal.jpeg';
-import yellowSignal from './images/yellowSignal.jpeg';
-import greenSignal from './images/greenSignal.jpeg';
+import { TrafficContext } from './App'
 
-const renderSignal = (signalColor) => {
-  if (signalColor === 'red') return redSignal;
-  if (signalColor === 'yellow') return yellowSignal;
-  if (signalColor === 'green') return greenSignal;
-  return null;
-};
+class TrafficSignal extends React.Component{
+  render() {
+    return (
+      <TrafficContext.Consumer>
+        {( {sign, handleTrafficSign, setTrafficSignColor })=> (
+          <div>
+            <div className="button-container">
+              <button onClick={() => handleTrafficSign('red')} type="button">
+                Red
+              </button>
+              <button onClick={() => handleTrafficSign('yellow')} type="button">
+                Yellow
+              </button>
+              <button onClick={() => handleTrafficSign('green')} type="button">
+                Green
+              </button>
+            </div>
+            <img className="signal" src={setTrafficSignColor(sign)} alt="" />
+          </div>
+          )
+        }
+   
+      </TrafficContext.Consumer>
+     
+    );
+  }
+}
 
-const TrafficSignal = ({ signalColor, changeSignal }) => {
-  return (
-    <div>
-      <div className="button-container">
-        <button onClick={() => changeSignal('red')} type="button">
-          Red
-        </button>
-        <button onClick={() => changeSignal('yellow')} type="button">
-          Yellow
-        </button>
-        <button onClick={() => changeSignal('green')} type="button">
-          Green
-        </button>
-      </div>
-      <img className="signal" src={renderSignal(signalColor)} alt="" />
-    </div>
-  );
-};
-
-const mapStateToProps = (state) => ({
-  signalColor: state.trafficReducer.signal.color
-});
-
-const mapDispatchToProps = { changeSignal };
-
-TrafficSignal.propTypes = {
-  changeSignal: PropTypes.func.isRequired,
-  signalColor: PropTypes.string.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrafficSignal);
+export default TrafficSignal;
