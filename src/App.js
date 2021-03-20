@@ -24,8 +24,7 @@ class App extends React.Component {
   render() {
     return (
       <CarContext.Provider value={{...this.state, moveCar: this.moveCar}}> 
-      {/* chaves de fora js em HTLM chaves de dentro é a chave do objeto */}
-      <Cars />
+        <Cars />
       </CarContext.Provider>
     );
   }
